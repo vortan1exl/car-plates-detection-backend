@@ -1,4 +1,4 @@
-package car_number_detection_backend;
+package car.number.detection;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
