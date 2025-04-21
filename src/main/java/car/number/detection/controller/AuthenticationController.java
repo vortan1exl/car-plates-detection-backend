@@ -5,13 +5,15 @@ import car.number.detection.dto.request.StudentLoginDTO;
 import car.number.detection.dto.request.StudentSignDTO;
 import car.number.detection.dto.response.AuthenticationDTO;
 import car.number.detection.service.AuthenticationService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/auth")
@@ -20,8 +22,8 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/admin/login")
-    public ResponseEntity<AuthenticationDTO> loginPersonnel(@RequestBody @Valid PersonnelLoginDTO dto) {
-        AuthenticationDTO authenticationDTOResponseEntity = authenticationService.loginPersonnel(dto);
+    public ResponseEntity<AuthenticationDTO> loginPersonnel(@RequestBody @Valid PersonnelLoginDTO dto, HttpServletResponse response) throws IOException {
+        AuthenticationDTO authenticationDTOResponseEntity = authenticationService.loginPersonnel(dto, response);
         return ResponseEntity.ok(authenticationDTOResponseEntity);
     }
 
@@ -31,8 +33,18 @@ public class AuthenticationController {
     }
 
     @PostMapping("/client/login")
-    public ResponseEntity<AuthenticationDTO> loginStudent(@RequestBody @Valid StudentLoginDTO dto) {
-        AuthenticationDTO authenticationDTOResponseEntity = authenticationService.loginStudent(dto);
+    public ResponseEntity<AuthenticationDTO> loginStudent(@RequestBody @Valid StudentLoginDTO dto, HttpServletResponse response) throws IOException{
+        AuthenticationDTO authenticationDTOResponseEntity = authenticationService.loginStudent(dto, response);
         return ResponseEntity.ok(authenticationDTOResponseEntity);
+    }
+
+    @PostMapping("/sign-out")
+    public boolean loginStudent(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response) {
+        return authenticationService.signOut(request, response);
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<AuthenticationDTO> refreshToken(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response) throws IOException {
+        return ResponseEntity.ok(authenticationService.refreshToken(request, response));
     }
 }

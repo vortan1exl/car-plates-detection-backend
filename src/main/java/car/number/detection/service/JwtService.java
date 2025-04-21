@@ -7,6 +7,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -67,14 +68,14 @@ public class JwtService {
         return generateToken(claims, userDetails, new Date(issuedAt), new Date(issuedAt + live));
     }
 
-    public String generateRefreshToken(UserDetails userDetails) {
+    public Pair<String, Date> generateRefreshToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("type", "refresh");
 
         long issuedAt = System.currentTimeMillis();
         Date expiration = new Date(issuedAt + 30L * 24 * 60 * 60 * 1000);
 
-        return generateToken(claims, userDetails, new Date(issuedAt), expiration);
+        return Pair.of(generateToken(claims, userDetails, new Date(issuedAt), expiration), expiration);
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
