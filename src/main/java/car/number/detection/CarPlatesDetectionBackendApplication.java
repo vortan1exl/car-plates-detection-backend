@@ -1,4 +1,4 @@
-package car_number_detection_backend;
+package car.number.detection;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,5 +9,4 @@ public class CarPlatesDetectionBackendApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(CarPlatesDetectionBackendApplication.class, args);
 	}
-
 }
