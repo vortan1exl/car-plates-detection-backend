@@ -44,8 +44,11 @@ public class Personnel implements UserInterface{
     @Column(length = 100)
     private String position;
 
+    @Column(name = "admin", nullable = false)
+    private Boolean isAdmin;
+
     public Role getRole(){
-        return Role.PERSONNEL;
+        return isAdmin ? Role.ADMIN : Role.PERSONNEL;
     }
 
     @OneToMany(mappedBy = "personnel", targetEntity = Vehicle.class, fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
@@ -59,9 +62,5 @@ public class Personnel implements UserInterface{
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Role.PERSONNEL.getAuthorities();
-    }
-
-    public String getPassword() {
-        return "";
     }
 }

@@ -3,10 +3,7 @@ package car.number.detection.service;
 import car.number.detection.dto.request.PersonnelLoginDTO;
 import car.number.detection.dto.request.StudentLoginDTO;
 import car.number.detection.dto.response.AuthenticationDTO;
-import car.number.detection.entity.Personnel;
-import car.number.detection.entity.Student;
-import car.number.detection.entity.Token;
-import car.number.detection.entity.UserInterface;
+import car.number.detection.entity.*;
 import car.number.detection.repository.PersonnelRepository;
 import car.number.detection.repository.StudentRepository;
 import car.number.detection.repository.TokenRepository;
@@ -17,8 +14,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.env.Profiles;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -44,6 +39,7 @@ public class AuthenticationService {
 
     public AuthenticationDTO loginPersonnel(PersonnelLoginDTO dto, HttpServletResponse response) throws IOException {
         Optional<Personnel> optionalPersonnel = personnelRepository.findByEmail(dto.getEmail());
+
         if (optionalPersonnel.isEmpty()) {
             response.sendError(403, "Не верный логин или пароль.");
             return null;
@@ -77,7 +73,6 @@ public class AuthenticationService {
         cookie.setPath("/auth");
         response.addCookie(cookie);
         cookie.setMaxAge(30 * 24 * 60 * 60);
-
 
         return new AuthenticationDTO(accessToken);
     }
@@ -227,5 +222,22 @@ public class AuthenticationService {
             }
         }
         return null;
+    }
+
+    public void createPersonnel(String email, String rawPassword) {
+        if (personnelRepository.findByEmail(email).isPresent()) {
+            throw new IllegalArgumentException("Пользователь с таким email уже существует.");
+        }
+
+        String encodedPassword = passwordEncoder.encode(rawPassword);
+
+        Personnel personnel = new Personnel();
+        personnel.setEmail(email);
+        personnel.setPassword(encodedPassword);
+        personnel.setIsAdmin(true);
+
+        personnelRepository.save(personnel);
+
+        System.out.println("✅ Пользователь успешно создан: " + email);
     }
 }

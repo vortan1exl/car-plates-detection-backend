@@ -27,12 +27,12 @@ public class AuthenticationController {
         return ResponseEntity.ok(authenticationDTOResponseEntity);
     }
 
-    @PostMapping("/client")
+    @PostMapping("/student")
     public void createCode(@RequestBody @Valid StudentSignDTO dto){
         authenticationService.createCode(dto.email);
     }
 
-    @PostMapping("/client/login")
+    @PostMapping("/student/login")
     public ResponseEntity<AuthenticationDTO> loginStudent(@RequestBody @Valid StudentLoginDTO dto, HttpServletResponse response) throws IOException{
         AuthenticationDTO authenticationDTOResponseEntity = authenticationService.loginStudent(dto, response);
         return ResponseEntity.ok(authenticationDTOResponseEntity);
