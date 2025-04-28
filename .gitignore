@@ -38,3 +38,4 @@ build/
 ## gigaide
 .gigaide/*
 .gigaide/gigaide.properties
+.gigaide/gigaide.properties

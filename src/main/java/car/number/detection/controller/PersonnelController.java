@@ -1,30 +1,32 @@
 package car.number.detection.controller;
 
-import car.number.detection.dto.response.*;
+import car.number.detection.dto.response.ParkingStatusDTO;
+import car.number.detection.dto.response.PersonnelProfileDTO;
+import car.number.detection.dto.response.VehicleParkingHistory;
+import car.number.detection.dto.response.VehicleParkingStatusDTO;
 import car.number.detection.service.ParkingService;
-import car.number.detection.service.StudentService;
+import car.number.detection.service.PersonnelService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/student")
+@RequestMapping("/personnel")
 @RequiredArgsConstructor
-public class StudentController {
-    private final StudentService studentService;
+public class PersonnelController {
+    private final PersonnelService personnelService;
     private final ParkingService parkingService;
 
     @GetMapping("/profile")
-    public ResponseEntity<StudentProfileDTO> getStudentProfile() {
-        return ResponseEntity.ok(studentService.getStudentProfile());
+    public ResponseEntity<PersonnelProfileDTO> getPersonnelProfile() {
+        return ResponseEntity.ok(personnelService.getPersonnelProfile());
     }
 
     @PostMapping("/update_profile")
-    public ResponseEntity<String> updateStudentProfile(@RequestBody StudentProfileDTO dto) {
-        return ResponseEntity.ok(studentService.updateStudentProfile(dto));
+    public ResponseEntity<String> updatePersonnelProfile(@RequestBody PersonnelProfileDTO dto){
+        return ResponseEntity.ok(personnelService.updatePersonnelProfile(dto));
     }
 
     @GetMapping("/status_parking")
@@ -46,11 +48,9 @@ public class StudentController {
     public ResponseEntity<Integer> getCountParkingVisitsThisMonth(){
         return ResponseEntity.ok(parkingService.getCountParkingVisitsThisMonth());
     }
-    
     @GetMapping("/average_visit_time")
     public ResponseEntity<Double> calculateAverageParkingDuration(){
         return ResponseEntity.ok(parkingService.calculateAverageParkingDuration());
     }
-
 
 }

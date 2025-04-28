@@ -1,21 +1,11 @@
-package car.number.detection.dto.response;
+package car.number.detection.dto.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Value;
 
-import java.util.List;
-
 @Value
-@Builder
-@AllArgsConstructor
-public class StudentProfileDTO {
-    @NotBlank
-    @Email
-    public String email;
-
+public class StuduntUpdateProfileDTO {
     @NotBlank
     public String firstName;
 
@@ -40,5 +30,4 @@ public class StudentProfileDTO {
     @NotBlank
     public String groups;
 
-    public List<VehicleDTO> vehicleDTO;
 }

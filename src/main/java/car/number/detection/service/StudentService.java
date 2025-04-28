@@ -1,7 +1,9 @@
 package car.number.detection.service;
 
+import car.number.detection.dto.response.PersonnelProfileDTO;
 import car.number.detection.dto.response.StudentProfileDTO;
 import car.number.detection.dto.response.VehicleDTO;
+import car.number.detection.entity.Personnel;
 import car.number.detection.entity.Student;
 import car.number.detection.entity.Vehicle;
 import car.number.detection.repository.StudentRepository;
@@ -23,9 +25,8 @@ public class StudentService {
         Student student = studentRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Клиент не найден"));
 
-
         List<Vehicle> vehicleList = vehicleRepository.findByStudent(student);
-        
+
         List<VehicleDTO> dtoList = vehicleList.stream()
                 .map(vehicle -> new VehicleDTO(
                         vehicle.getId(),
@@ -36,7 +37,7 @@ public class StudentService {
                 ))
                 .toList();
 
-        StudentProfileDTO studentProfileDTO = new StudentProfileDTO(
+        return new StudentProfileDTO(
                 student.getEmail(),
                 student.getFirstName(),
                 student.getMiddleName(),
@@ -48,9 +49,24 @@ public class StudentService {
                 student.getGroups(),
                 dtoList
         );
-
-        return studentProfileDTO;
     }
+    public String updateStudentProfile(StudentProfileDTO dto) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
+        Student student = studentRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Студент не найден"));
 
+        student.setFirstName(dto.getFirstName());
+        student.setMiddleName(dto.getMiddleName());
+        student.setLastName(dto.getLastName());
+        student.setPhone(dto.getPhone());
+        student.setStudent_card(dto.getStudent_card());
+        student.setFaculty(dto.getFaculty());
+        student.setCourse(dto.getCourse());
+        student.setGroups(dto.getGroups());
+
+        studentRepository.save(student);
+
+        return "Данные профиля успешно обновлены!";
+    }
 }
