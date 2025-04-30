@@ -18,11 +18,11 @@ public class Token {
     private String token;
 
     @ManyToOne(targetEntity = Student.class, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "student_id", nullable = false)
+    @JoinColumn(name = "student_id", nullable = true)
     private Student student;
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "personnel_id")
+    @JoinColumn(name = "personnel_id", nullable = true)
     private Personnel personnel;
 
     @Column(nullable = false)
