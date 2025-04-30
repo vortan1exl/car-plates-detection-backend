@@ -2,7 +2,7 @@ package car.number.detection.controller;
 
 import car.number.detection.dto.response.ParkingStatusDTO;
 import car.number.detection.dto.response.PersonnelProfileDTO;
-import car.number.detection.dto.response.VehicleParkingHistory;
+import car.number.detection.dto.response.VehicleParkingHistoryDTO;
 import car.number.detection.dto.response.VehicleParkingStatusDTO;
 import car.number.detection.service.ParkingService;
 import car.number.detection.service.PersonnelService;
@@ -40,7 +40,7 @@ public class PersonnelController {
     }
 
     @GetMapping("/vehicle_history")
-    public ResponseEntity<List<VehicleParkingHistory>> getVehicleParkingHistory(){
+    public ResponseEntity<List<VehicleParkingHistoryDTO>> getVehicleParkingHistory(){
         return ResponseEntity.ok(parkingService.getVehicleParkingHistory());
     }
 

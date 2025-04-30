@@ -1,14 +1,14 @@
 package car.number.detection.dto.response;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.Value;
+import lombok.AllArgsConstructor;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Value
-public class VehicleParkingHistory {
+@AllArgsConstructor
+public class VehicleOnTheParkingDTO {
+    public UUID id;
     @NotBlank
     public String carPlate;
 
@@ -24,6 +24,5 @@ public class VehicleParkingHistory {
     LocalDateTime entryTime;
 
     LocalDateTime exitTime;
-
-    Duration duration;
 }
+

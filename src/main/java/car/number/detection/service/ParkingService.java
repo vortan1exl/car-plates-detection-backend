@@ -1,7 +1,7 @@
 package car.number.detection.service;
 
 import car.number.detection.dto.response.ParkingStatusDTO;
-import car.number.detection.dto.response.VehicleParkingHistory;
+import car.number.detection.dto.response.VehicleParkingHistoryDTO;
 import car.number.detection.dto.response.VehicleParkingStatusDTO;
 import car.number.detection.entity.ParkingLog;
 import car.number.detection.entity.Personnel;
@@ -69,7 +69,7 @@ public class ParkingService {
         return result;
     }
 
-    public List<VehicleParkingHistory> getVehicleParkingHistory(){
+    public List<VehicleParkingHistoryDTO> getVehicleParkingHistory(){
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         List<Vehicle> vehicleList;
         Student student = studentRepository.findByEmail(email).orElse(null);
@@ -81,7 +81,7 @@ public class ParkingService {
             vehicleList = vehicleRepository.findByPersonnel(personnel);
         }
 
-        List<VehicleParkingHistory> history = new ArrayList<>();
+        List<VehicleParkingHistoryDTO> history = new ArrayList<>();
 
         for (Vehicle vehicle : vehicleList) {
             List<ParkingLog> logs = parkingLogRepository.findByVehicleOrderByEntryTimeDesc(vehicle);
@@ -90,7 +90,7 @@ public class ParkingService {
                         ? Duration.between(log.getEntryTime(), log.getExitTime())
                         : Duration.between(log.getEntryTime(), LocalDateTime.now());
 
-                history.add(new VehicleParkingHistory(
+                history.add(new VehicleParkingHistoryDTO(
                         vehicle.getCarPlate(),
                         vehicle.getBrand(),
                         vehicle.getModel(),

@@ -21,4 +21,6 @@ public interface ParkingLogRepository extends JpaRepository<ParkingLog, Long> {
     Integer countByVehicleInAndEntryTimeBetween(List<Vehicle> vehicles, LocalDateTime startOfMonth, LocalDateTime endOfMonth);
 
     List<ParkingLog> findByVehicleIn(Collection<Vehicle> vehicles);
+
+    List<ParkingLog> findByExitTimeAfterOrExitTimeIsNull(LocalDateTime exitTime);
 }
