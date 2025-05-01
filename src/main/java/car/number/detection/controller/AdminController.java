@@ -35,12 +35,12 @@ public class AdminController {
         return ResponseEntity.ok(adminService.getPersonnelById(uuid));
     }
 
-    @PostMapping("/updateStudent/{uuid}")
+    @PostMapping("/update_student/{uuid}")
     public String updateStudentById(@PathVariable UUID uuid, @RequestBody StudentDTO dto){
         return adminService.updateStudentById(uuid,dto);
     }
 
-    @PostMapping("/updateStudent/{uuid}")
+    @PostMapping("/update_personnel/{uuid}")
     public String updatePersonnelById(@PathVariable UUID uuid, @RequestBody PersonnelDTO dto){
         return adminService.updatePersonnelById(uuid, dto);
     }
