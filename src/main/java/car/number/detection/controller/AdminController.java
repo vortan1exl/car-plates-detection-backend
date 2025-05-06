@@ -55,18 +55,13 @@ public class AdminController {
         return adminService.addVehicleForPersonnel(uuid, dto);
     }
 
-    @PostMapping("/get_vehicle_parking")
+    @GetMapping("/get_vehicle_parking")
     public ResponseEntity<List<VehicleOnTheParkingDTO>> getVehicleOnTheParking(){
         return ResponseEntity.ok(adminService.getVehicleOnTheParking());
     }
 
-    @PostMapping("/get_vehicle_history")
+    @GetMapping("/get_vehicle_history")
     public ResponseEntity<List<VehicleOnTheParkingDTO>> getHistoryOnTheParking(){
         return ResponseEntity.ok(adminService.getHistoryOnTheParking());
-    }
-
-    @PostMapping("/test/test/test")
-    public void getCarFromKafka(){
-        
     }
 }
