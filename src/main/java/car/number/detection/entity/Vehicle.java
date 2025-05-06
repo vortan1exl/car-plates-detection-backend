@@ -26,7 +26,7 @@ public class Vehicle {
     private String color;
 
     @ManyToOne(targetEntity = Student.class, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "student_id", nullable = false)
+    @JoinColumn(name = "student_id")
     private Student student;
 
     @ManyToOne(cascade = CascadeType.MERGE)

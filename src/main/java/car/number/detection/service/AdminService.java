@@ -69,6 +69,19 @@ public class AdminService {
         Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Студент не найден:" + id));
 
+        List<Vehicle> vehicleList = vehicleRepository.findByStudent(student);
+
+        List<VehicleDTO> dtoList = vehicleList.stream()
+                .map(vehicle -> new VehicleDTO(
+                        vehicle.getId(),
+                        vehicle.getCarPlate(),
+                        vehicle.getBrand(),
+                        vehicle.getModel(),
+                        vehicle.getColor()
+                ))
+                .toList();
+
+
         StudentDTO dto = new StudentDTO();
         dto.id = student.getId();
         dto.email = student.getEmail();
@@ -80,6 +93,7 @@ public class AdminService {
         dto.faculty = student.getFaculty();
         dto.course = student.getCourse();
         dto.groups = student.getGroups();
+        dto.vehicleDTO = dtoList;
 
         return dto;
     }
@@ -87,6 +101,18 @@ public class AdminService {
     public PersonnelDTO getPersonnelById(UUID id){
         Personnel personnel = personnelRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Персонал не найден:" + id));
+
+        List<Vehicle> vehicleList = vehicleRepository.findByPersonnel(personnel);
+
+        List<VehicleDTO> dtoList = vehicleList.stream()
+                .map(vehicle -> new VehicleDTO(
+                        vehicle.getId(),
+                        vehicle.getCarPlate(),
+                        vehicle.getBrand(),
+                        vehicle.getModel(),
+                        vehicle.getColor()
+                ))
+                .toList();
 
         PersonnelDTO dto = new PersonnelDTO();
         dto.id = personnel.getId();
@@ -98,6 +124,8 @@ public class AdminService {
         dto.faculty = personnel.getFaculty();
         dto.position = personnel.getPosition();
         dto.isAdmin = personnel.getIsAdmin();
+        dto.vehicleDTOList = dtoList;
+
 
         return dto;
     }
@@ -172,7 +200,7 @@ public class AdminService {
     }
 
     public List<VehicleOnTheParkingDTO> getVehicleOnTheParking(){
-        List<ParkingLog> activeLogs = parkingLogRepository.findByExitTimeAfterOrExitTimeIsNull(LocalDateTime.now());
+        List<ParkingLog> activeLogs = parkingLogRepository.findByExitTimeIsNull();
 
         return activeLogs.stream()
                 .map(log -> {
@@ -198,10 +226,10 @@ public class AdminService {
                     Vehicle vehicle = log.getVehicle();
                     return new VehicleOnTheParkingDTO(
                             vehicle.getId(),
+                            vehicle.getCarPlate(),
                             vehicle.getBrand(),
                             vehicle.getModel(),
                             vehicle.getColor(),
-                            vehicle.getCarPlate(),
                             log.getEntryTime(),
                             log.getExitTime()
                     );

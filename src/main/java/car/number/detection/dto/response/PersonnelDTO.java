@@ -4,6 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -35,5 +36,7 @@ public class PersonnelDTO {
     public String position;
 
     public boolean isAdmin;
+
+    public List<VehicleDTO> vehicleDTOList;
 
 }

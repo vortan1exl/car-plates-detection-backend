@@ -25,5 +25,4 @@ public interface ParkingLogRepository extends JpaRepository<ParkingLog, Long> {
 
     List<ParkingLog> findByVehicleIn(Collection<Vehicle> vehicles);
 
-    List<ParkingLog> findByExitTimeAfterOrExitTimeIsNull(LocalDateTime exitTime);
 }
