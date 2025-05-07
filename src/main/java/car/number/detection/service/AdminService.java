@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -130,7 +131,7 @@ public class AdminService {
         return dto;
     }
 
-    public String updatePersonnelById(UUID id, PersonnelDTO dto) {
+    public String updatePersonnelById(UUID id, PersonnelDTOV dto) {
         Personnel personnel = personnelRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Персонал не найден"));
 
@@ -147,7 +148,7 @@ public class AdminService {
 
     }
 
-    public String updateStudentById(UUID id, StudentDTO dto) {
+    public String updateStudentById(UUID id, StudentDTOV dto) {
         Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Студент не найден"));
 
@@ -201,7 +202,7 @@ public class AdminService {
 
     public List<VehicleOnTheParkingDTO> getVehicleOnTheParking(){
         List<ParkingLog> activeLogs = parkingLogRepository.findByExitTimeIsNull();
-
+;
         return activeLogs.stream()
                 .map(log -> {
                     Vehicle vehicle = log.getVehicle();
@@ -237,4 +238,23 @@ public class AdminService {
                 .collect(Collectors.toList());
     }
 
+    public String updateVehicle(UUID uuid, VehicleDTO dto) {
+        Vehicle vehicle = vehicleRepository.findById(uuid).
+                orElseThrow(() -> new RuntimeException("Автомобиль не найден"));
+        vehicle.setCarPlate(dto.getCarPlate());
+        vehicle.setBrand(dto.getBrand());
+        vehicle.setModel(dto.getModel());
+        vehicle.setColor(dto.getColor());
+        vehicleRepository.save(vehicle);
+        return "Данные успешно обновлены!";
+    }
+
+    public String deleteVehicle(UUID uuid){
+        Vehicle vehicle = vehicleRepository.findById(uuid).
+                orElseThrow(() -> new RuntimeException("Автомобиль не найден"));
+        vehicle.setPersonnel(null);
+        vehicle.setStudent(null);
+        vehicleRepository.save(vehicle);
+        return "Данные удалены";
+    }
 }

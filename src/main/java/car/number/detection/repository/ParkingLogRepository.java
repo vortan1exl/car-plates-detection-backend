@@ -25,4 +25,5 @@ public interface ParkingLogRepository extends JpaRepository<ParkingLog, Long> {
 
     List<ParkingLog> findByVehicleIn(Collection<Vehicle> vehicles);
 
+    void deleteByVehicle(Vehicle vehicle);
 }

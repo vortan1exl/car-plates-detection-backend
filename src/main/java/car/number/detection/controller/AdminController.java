@@ -36,12 +36,12 @@ public class AdminController {
     }
 
     @PostMapping("/update_student/{uuid}")
-    public String updateStudentById(@PathVariable UUID uuid, @RequestBody StudentDTO dto){
+    public String updateStudentById(@PathVariable UUID uuid, @RequestBody StudentDTOV dto){
         return adminService.updateStudentById(uuid,dto);
     }
 
     @PostMapping("/update_personnel/{uuid}")
-    public String updatePersonnelById(@PathVariable UUID uuid, @RequestBody PersonnelDTO dto){
+    public String updatePersonnelById(@PathVariable UUID uuid, @RequestBody PersonnelDTOV dto){
         return adminService.updatePersonnelById(uuid, dto);
     }
 
@@ -63,5 +63,15 @@ public class AdminController {
     @GetMapping("/get_vehicle_history")
     public ResponseEntity<List<VehicleOnTheParkingDTO>> getHistoryOnTheParking(){
         return ResponseEntity.ok(adminService.getHistoryOnTheParking());
+    }
+
+    @PostMapping("/update_vehicle/{uuid}")
+    public String updateVehicle(@PathVariable UUID uuid, @RequestBody VehicleDTO dto){
+        return adminService.updateVehicle(uuid, dto);
+    }
+
+    @DeleteMapping("/delete_vehicle/{uuid}")
+    public String deleteVehicle(@PathVariable UUID uuid){
+        return adminService.deleteVehicle(uuid);
     }
 }
